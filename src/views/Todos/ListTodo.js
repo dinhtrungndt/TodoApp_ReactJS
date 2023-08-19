@@ -19,6 +19,7 @@ class ListTodo extends React.Component {
         title: "Playing game",
       },
     ],
+    editTodo: {},
   };
 
   addNewTodo = (todo) => {
@@ -32,29 +33,105 @@ class ListTodo extends React.Component {
     toast.success("Add todo success");
   };
 
-  render() {
-    let { listTodo } = this.state;
-    // let listTodo = this.state.listTodo;
+  handleDeleteTodo = (todo) => {
+    let currentListTodo = this.state.listTodo;
+    currentListTodo = currentListTodo.filter((item) => item.id !== todo.id);
+    this.setState({
+      listTodo: currentListTodo,
+    });
+    toast.success("Delete todo success");
+  };
 
+  handleEditTodo = (todo) => {
+    let { editTodo } = this.state;
+    let isEmptyObj = Object.keys(editTodo).length === 0;
+    // save
+    if (isEmptyObj === false && editTodo.id === todo.id) {
+      let currentListTodo = this.state.listTodo;
+      currentListTodo = currentListTodo.map((item) => {
+        if (item.id === todo.id) {
+          item.title = editTodo.title;
+        }
+        return item;
+      });
+      this.setState({
+        listTodo: currentListTodo,
+        editTodo: {},
+      });
+      toast.success("Edit todo success");
+      return;
+    }
+
+    // edit
+    this.setState({
+      editTodo: todo,
+    });
+  };
+
+  handleOnChangeEdit = (event) => {
+    let editTodoCopy = { ...this.state.editTodo };
+    editTodoCopy.title = event.target.value;
+    this.setState({
+      editTodo: editTodoCopy,
+    });
+  };
+
+  render() {
+    let { listTodo, editTodo } = this.state;
+    // let listTodo = this.state.listTodo;
+    let isEmptyObj = Object.keys(editTodo).length === 0;
     return (
-      <div className="list-todo-container">
-        <AddTodo addNewTodo={this.addNewTodo} />
-        <div className="list-todo-content">
-          {listTodo &&
-            listTodo.length > 0 &&
-            listTodo.map((item, index) => {
-              return (
-                <div className="todo-child" key={item.id}>
-                  <span>
-                    {index + 1} - {item.title}
-                  </span>
-                  <button className="edit">Edit</button>
-                  <button className="delete">Delete</button>
-                </div>
-              );
-            })}
+      <>
+        <p>Todo App By Nguyễn Đình Trưng </p>
+        <div className="list-todo-container">
+          <AddTodo addNewTodo={this.addNewTodo} />
+          <div className="list-todo-content">
+            {listTodo &&
+              listTodo.length > 0 &&
+              listTodo.map((item, index) => {
+                return (
+                  <div className="todo-child" key={item.id}>
+                    {isEmptyObj === true ? (
+                      <span>
+                        {index + 1} - {item.title}
+                      </span>
+                    ) : (
+                      <>
+                        {editTodo.id === item.id ? (
+                          <span>
+                            {index + 1} -{" "}
+                            <input
+                              onChange={(e) => this.handleOnChangeEdit(e)}
+                              value={editTodo.title}
+                            />
+                          </span>
+                        ) : (
+                          <span>
+                            {index + 1} - {item.title}
+                          </span>
+                        )}
+                      </>
+                    )}
+                    <button
+                      className="edit"
+                      onClick={() => this.handleEditTodo(item)}
+                    >
+                      {isEmptyObj === false && editTodo.id === item.id
+                        ? "Save"
+                        : "Edit"}
+                    </button>
+                    <button
+                      className="delete"
+                      onClick={() => this.handleDeleteTodo(item)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                );
+              })}
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }
