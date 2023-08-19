@@ -2,31 +2,31 @@ import React from "react";
 
 class AddComponent extends React.Component {
   state = {
-    titleJob: "",
+    title: "",
     salary: "",
   };
   // Buoi 1
 
   //   handleOnChangetitleJob = (event) => {
   //     this.setState({
-  //       titleJob: event.target.value,
+  //       title: event.target.value,
   //     });
   //   };
 
   //   handleClick = () => {
-  //     alert("Hello " + this.state.titleJob);
+  //     alert("Hello " + this.state.title);
   //   };
 
   //   Buoi 2
   handleClick = (event) => {
     event.preventDefault();
-    // alert("Hello " + this.state.titleJob);
+    // alert("Hello " + this.state.title);
     console.log(">>> Call handleClick: ", this.state);
   };
 
   handletitleJob = (event) => {
     this.setState({
-      titleJob: event.target.value,
+      title: event.target.value,
     });
   };
 
@@ -42,13 +42,13 @@ class AddComponent extends React.Component {
         {/* Buổi 1 */}
         {/* <div classtitleJob="header">
           <input
-            value={this.state.titleJob}
+            value={this.state.title}
             type="text"
             onChange={(event) => this.handleOnChangetitleJob(event)}
           />
           <div classtitleJob="lasttitleJob">
-            {console.log("MyComponent.js: ", this.state.titleJob)}
-            Hello my component {this.state.titleJob}
+            {console.log("MyComponent.js: ", this.state.title)}
+            Hello my component {this.state.title}
           </div>
           <div classtitleJob="firsttitleJob">
             {console.log("Chanel : ", this.state.salary)}
@@ -61,9 +61,9 @@ class AddComponent extends React.Component {
 
         {/* Buổi 2 form HTML */}
         <form>
-          <label htmlFor="titleJob">Job's title: </label>
+          <label htmlFor="title">Job's title: </label>
           <input
-            value={this.state.titleJob}
+            value={this.state.title}
             type="text"
             onChange={(event) => this.handletitleJob(event)}
           />{" "}

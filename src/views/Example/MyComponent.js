@@ -1,6 +1,6 @@
 import React from "react";
 import ChildComponent from "./ChildComponent";
-import AddComponent from "../AddComponent";
+import AddComponent from "./AddComponent";
 
 class MyComponent extends React.Component {
   // key: value
@@ -27,6 +27,19 @@ class MyComponent extends React.Component {
         salary: "1000",
       },
     ],
+  };
+
+  addNewJob = (job) => {
+    console.log(">>> Call addNewJob: ", job);
+    let newJob = {
+      id: "abcJob5",
+      title: job.title,
+      salary: job.salary,
+    };
+    let newArrJobs = [...this.state.arrJobs, newJob];
+    this.setState({
+      arrJobs: newArrJobs,
+    });
   };
 
   render() {
